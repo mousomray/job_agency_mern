@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../common/head.ejs') %>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <%- include('../common/adminsidebar.ejs') %>
+
+      <div class="main">
+        <%- include('../common/adminnavbar.ejs') %>
+
+        <!-- Flash Messages -->
+        <% if (sucess && sucess != '') { %>
+        <div
+          class="alert alert-success"
+          role="alert"
+          style="
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            text-align: center;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 10px;
+            z-index: 1000;
+          "
+        >
+          <%= sucess %>
+        </div>
+        <% } else if (err && err != '') { %>
+        <div
+          class="alert alert-danger"
+          role="alert"
+          style="
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            text-align: center;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 10px;
+            z-index: 1000;
+          "
+        >
+          <%= err %>
+        </div>
+        <% } %>
+
+        <!-- About Us Content -->
+        <!-- About Us Content -->
+        <main
+          class="content"
+          style="
+            padding: 20px;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            margin-left: 250px; /* Adjusted to prevent overlap from sidebar */
+            transition: margin-left 0.3s ease-in-out;
+          "
+        >
+          <div
+            class="about-container"
+            style="
+              width: 90%;
+              max-width: 1200px;
+              background: white;
+              padding: 20px;
+              border-radius: 10px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            "
+          >
+            <h2
+              style="
+                text-align: center;
+                margin-bottom: 20px;
+                color: #343a40;
+                font-size: 24px;
+              "
+            >
+              Application List
+            </h2>
+
+            <table
+              class="table"
+              style="
+                width: 100%;
+                border-collapse: collapse;
+                font-family: Arial, sans-serif;
+              "
+            >
+              <thead>
+                <tr
+                  style="
+                    background-color: #007bff;
+                    color: white;
+                    text-align: left;
+                  "
+                >
+                  <th scope="col" style="padding: 10px; text-align: center">
+                    Picture
+                  </th>
+                  <th scope="col" style="padding: 10px; text-align: center">
+                    Name
+                  </th>
+                  <th scope="col" style="padding: 10px; text-align: center">
+                    Email
+                  </th>
+                  <th scope="col" style="padding: 10px; text-align: center">
+                    Job title
+                  </th>
+                  <th scope="col" style="padding: 10px; text-align: center">
+                    Image
+                  </th>
+                  <th scope="col" style="padding: 10px; text-align: center">
+                    Companyname
+                  </th>
+                  <th scope="col" style="padding: 10px; text-align: center">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% application.slice(0,application.length).reverse().forEach((value) => { %>
+                <tr style="border-bottom: 1px solid #ddd">
+                  <td style="padding: 12px; text-align: center">
+                    <img
+                      src="http://localhost:3004/<%= value.userId.image %>"
+                      alt="Image"
+                      height="60px"
+                      width="60px"
+                      style="border-radius: 5px; border: 1px solid #ddd"
+                    />
+                  </td>
+                  <td style="padding: 12px; text-align: center">
+                    <%= value.userId.name %>
+                  </td>
+                  <td style="padding: 12px; text-align: center">
+                    <%= value.userId.email %>
+                  </td>
+                  
+                  <td style="padding: 12px; text-align: center">
+                    <%= value.jobId.title %>
+                  </td>
+                  <td style="padding: 12px; text-align: center">
+                    <img
+                      src="http://localhost:3004/<%= value.jobId.image %>"
+                      alt="Image"
+                      height="60px"
+                      width="60px"
+                      style="border-radius: 5px; border: 1px solid #ddd"
+                    />
+                  </td>
+                  <td style="padding: 12px; text-align: center">
+                    <%= value.jobId.companyname %>
+                  </td>
+                  <td style="padding: 12px; text-align: center">
+                    <a
+                      href="<%= generateUrl('toggleapplicationactive', { id: value._id }) %>"
+                      style="
+                      background-color: <%= value.status === 'pending' ? '#ffc107' : '#28a745' %>;
+                      color: white;
+                      padding: 8px 12px;
+                      border-radius: 5px;
+                      text-decoration: none;
+                      margin-left: 5px;
+                    "
+                    >
+                      <%= value.status === 'pending' ? 'Pending' : 'Approved'
+                      %>
+                    </a>
+                </td> 
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </main>
+
+        <%- include('../common/footer.ejs') %>
+      </div>
+    </div>
+  </body>
+</html>
